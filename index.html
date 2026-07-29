@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Concept</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: url('bg.jpg') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Dark overlay για να "κάτσει" σωστά το text */
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      top: 0;
+      left: 0;
+    }
+
+    .content {
+      position: relative;
+      text-align: center;
+      max-width: 600px;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 42px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #ff5a1f;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    .form {
+      display: flex;
+      justify-content: center;
+    }
+
+    input {
+      padding: 12px;
+      border: none;
+      outline: none;
+      width: 70%;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      background: #ff5a1f;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #e14d1a;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="content">
+  <h1>ROCK CONCEPT</h1>
+  <h2>The studio is warming up</h2>
+  <p>A new rock radio experience is coming</p>
+
+  <div class="form">
+    <input type="email" placeholder="Enter your email">
+    <button>Notify Me</button>
+  </div>
+</div>
+
+</body>
+</html>
