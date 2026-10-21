@@ -505,7 +505,7 @@
         throw new Error("Station data unavailable");
       }
 
-      const isOnline = station.station?.is_online === true;
+      const isOnline = station.is_online === true;
 
       onAirText.textContent = isOnline ? "ON AIR" : "OFF AIR";
       onAirBadge.classList.toggle("off-air", !isOnline);
