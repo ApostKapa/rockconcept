@@ -281,6 +281,48 @@
       .play-button { width: 100%; }
       .volume-label { text-align: center; }
     }
+    
+.station-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 7px 14px;
+  border: 1px solid currentColor;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.station-status.live {
+  color: #ff3030;
+  background: rgba(255, 48, 48, 0.10);
+}
+
+.station-status.live .status-dot {
+  box-shadow: 0 0 10px #ff3030;
+  animation: live-pulse 1.4s infinite;
+}
+
+.station-status.off-air {
+  color: #999;
+  background: rgba(150, 150, 150, 0.08);
+}
+
+@keyframes live-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
   </style>
 </head>
 
@@ -315,10 +357,18 @@
         </div>
       </div>
 
-      <div class="track-label">NOW PLAYING</div>
-      <div id="track-title">Rock Concept</div>
-      <div id="track-artist">Your rock station</div>
-      <div class="listeners" id="listeners">Connecting to the station...</div>
+      
+<div class="track-label">NOW PLAYING</div>
+
+<div id="station-status" class="station-status off-air">
+  <span class="status-dot"></span>
+  <span id="status-text">CHECKING...</span>
+</div>
+
+<div id="track-title">Rock Concept</div>
+<div id="track-artist">Your rock station</div>
+<div class="listeners" id="listeners">Connecting to the station...</div>
+
 
       <div class="player-controls">
         <button class="play-button" id="playButton" type="button">
@@ -417,6 +467,16 @@
         }
 
         const song = station.now_playing.song || {};
+        
+const statusElement = document.getElementById("station-status");
+const statusText = document.getElementById("status-text");
+
+const isLive = station.live && station.live.is_live === true;
+
+statusElement.classList.toggle("live", isLive);
+statusElement.classList.toggle("off-air", !isLive);
+statusText.textContent = isLive ? "LIVE" : "OFF AIR";
+
 
         document.getElementById("track-title").textContent =
           song.title || "Rock Concept Live";
@@ -435,11 +495,18 @@
             : listenerCount + (listenerCount === 1
                 ? " LISTENER TUNED IN"
                 : " LISTENERS TUNED IN");
-      } catch (error) {
-        document.getElementById("listeners").textContent =
-          "LIVE FROM ROCK CONCEPT";
-      }
-    }
+      
+} catch (error) {
+  document.getElementById("listeners").textContent =
+    "Station status unavailable";
+
+  const statusElement = document.getElementById("station-status");
+  const statusText = document.getElementById("status-text");
+
+  statusElement.classList.remove("live");
+  statusElement.classList.remove("off-air");
+  statusText.textContent = "CHECK STATUS";
+}
 
     updateNowPlaying();
     setInterval(updateNowPlaying, 15000);
