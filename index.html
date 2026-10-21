@@ -322,6 +322,37 @@
     opacity: 0.35;
   }
 }
+.live-badge.off-air {
+  color: #999;
+  border-color: #666;
+  background: rgba(150, 150, 150, 0.08);
+}
+
+.live-badge.off-air .live-dot {
+  background: #777;
+  box-shadow: none;
+  animation: none;
+}
+  
+.site-footer {
+  text-align: center;
+  padding: 25px 15px;
+  margin-top: 30px;
+}
+
+.site-footer a {
+  color: #ff3030;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: #ff6666;
+  text-decoration: underline;
+}
 
   </style>
 </head>
@@ -351,10 +382,12 @@
     <section class="radio-card" aria-label="Live radio player">
       <div class="live-heading">
         <h2>LIVE RADIO</h2>
-        <div class="live-badge">
-          <span class="live-dot"></span>
-          ON AIR
-        </div>
+        
+<div class="live-badge" id="on-air-badge">
+  <span class="live-dot"></span>
+  <span id="on-air-text">ON AIR</span>
+</div>
+
       </div>
 
       
@@ -466,6 +499,15 @@
           throw new Error("Station data unavailable");
         }
 
+const onAirBadge = document.getElementById("on-air-badge");
+const onAirText = document.getElementById("on-air-text");
+
+const isOnline = station.station?.is_online === true;
+
+onAirText.textContent = isOnline ? "ON AIR" : "OFF AIR";
+onAirBadge.classList.toggle("off-air", !isOnline);
+onAirBadge.classList.toggle("on-air", isOnline);
+
         const song = station.now_playing.song || {};
         
 const statusElement = document.getElementById("station-status");
@@ -499,6 +541,11 @@ statusText.textContent = isLive ? "LIVE" : "OFF AIR";
 } catch (error) {
   document.getElementById("listeners").textContent =
     "Station status unavailable";
+          const onAirText = document.getElementById("on-air-text");
+  const onAirBadge = document.getElementById("on-air-badge");
+
+  onAirText.textContent = "CHECK STATUS";
+  onAirBadge.classList.remove("on-air", "off-air");
 
   const statusElement = document.getElementById("station-status");
   const statusText = document.getElementById("status-text");
@@ -538,5 +585,12 @@ statusText.textContent = isLive ? "LIVE" : "OFF AIR";
     updateCountdown();
     setInterval(updateCountdown, 1000);
   </script>
+
+<footer class="site-footer">
+  <a href="https://www.c2.gr" target="_blank" rel="noopener noreferrer">
+    Powered by Cloud Concept
+  </a>
+</footer>
+
 </body>
 </html>
