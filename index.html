@@ -1,167 +1,475 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Rock Concept</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="Rock Concept — Independent rock radio. Turn it up.">
+  <title>Rock Concept | Independent Rock Radio</title>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+  <style>
+    :root {
+      --red: #ff321f;
+      --orange: #ff5a1f;
+      --black: #090909;
+      --muted: #b8b8b8;
+    }
 
-body {
-  background: url('bg.jpg') center/cover no-repeat;
-  color: white;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* overlay */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.75);
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
+    html { scroll-behavior: smooth; }
 
-/* NAVBAR */
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  z-index: 3;
-}
+    body {
+      min-height: 100vh;
+      background: #090909 url('bg.jpg') center center / cover fixed no-repeat;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.navbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: bold;
-}
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      z-index: 0;
+    }
 
-.navbar a:hover {
-  color: #ff5a1f;
-}
+    .navbar {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 24px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
 
-/* CONTENT */
-.container {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  margin-top: 150px;
-}
+    .brand {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      white-space: nowrap;
+    }
 
-h1 {
-  font-size: 48px;
-  letter-spacing: 3px;
-}
+    .brand span { color: var(--red); }
 
-.player {
-  margin-top: 40px;
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
 
-button {
-  margin-top: 15px;
-  padding: 10px 25px;
-  background: #ff5a1f;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
 
-button:hover {
-  background: #e14d1a;
-}
+    .nav-links a {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
+    .nav-links a:hover { color: var(--orange); }
 
-/* COUNTDOWN */
-#countdown { position: fixed; top: 18px; right: 30px; z-index: 4; text-align: right; color: white; }
-.countdown-title { font-size: 11px; letter-spacing: 3px; opacity: 0.7; margin-bottom: 4px; }
-#timer { font-size: 20px; font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 10px rgba(255,255,255,0.45); }
-</style>
+    .countdown {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 28px 15px 0;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    #timer {
+      font-size: clamp(16px, 3vw, 22px);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      width: min(760px, 92%);
+      margin: 55px auto 0;
+      padding-bottom: 65px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 8vw, 76px);
+      line-height: 1.05;
+      letter-spacing: 3px;
+      font-weight: 900;
+      text-shadow: 0 0 30px rgba(255, 50, 31, .16);
+    }
+
+    h1 span { color: var(--red); }
+
+    .subtitle {
+      margin-top: 18px;
+      color: #d0d0d0;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .radio-card {
+      width: min(510px, 100%);
+      margin: 42px auto 0;
+      padding: 28px;
+      background: rgba(12, 12, 12, .88);
+      border: 1px solid rgba(255, 70, 40, .38);
+      border-radius: 12px;
+      box-shadow: 0 15px 55px rgba(0,0,0,.4);
+      text-align: left;
+    }
+
+    .live-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .live-heading h2 {
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #ff6b5b;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 12px var(--red);
+    }
+
+    .track-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    #track-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    #track-artist {
+      margin-top: 7px;
+      color: #c2c2c2;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .listeners {
+      margin-top: 15px;
+      color: #8e8e8e;
+      font-size: 11px;
+    }
+
+    .player-controls {
+      margin-top: 26px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .play-button {
+      min-width: 150px;
+      padding: 15px 24px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .play-button:hover {
+      background: #d92516;
+      transform: translateY(-1px);
+    }
+
+    .volume-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    audio { display: none; }
+
+    #player-status {
+      min-height: 18px;
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .tagline {
+      margin-top: 35px;
+      color: #aaa;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 22px 15px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: #888;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    footer span { color: var(--red); }
+
+    @media (max-width: 520px) {
+      .navbar {
+        padding: 20px 5%;
+        flex-direction: column;
+      }
+
+      .nav-links { gap: 22px; }
+
+      main { margin-top: 42px; }
+
+      .radio-card { padding: 22px 18px; }
+
+      .player-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .play-button { width: 100%; }
+      .volume-label { text-align: center; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="overlay"></div>
 
-<div class="overlay"></div>
+  <header class="navbar">
+    <a class="brand" href="./">ROCK <span>CONCEPT</span></a>
 
-<!-- COUNTDOWN -->
-<div id="countdown">
-  <div class="countdown-title">NEXT EVENT</div>
-  <div id="timer">00d 00h 00m 00s</div>
-</div>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="producers.html">PRODUCERS</a>
+      <a href="chat.html">CHAT</a>
+    </nav>
+  </header>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div>ROCK CONCEPT</div>
+  <section class="countdown" aria-label="Launch countdown">
+    <div class="countdown-label">COUNTDOWN TO LAUNCH</div>
+    <div id="timer">Loading...</div>
+  </section>
 
-  <div>
-    <a href="producers.html">Producers</a>
-    <a href="chat.html">Chat</a>
-  </div>
-</div>
+  <main>
+    <div class="eyebrow">INDEPENDENT ROCK RADIO</div>
+    <h1>ROCK <span>CONCEPT</span></h1>
+    <p class="subtitle">TURN IT UP. FEEL THE ROCK.</p>
 
-<!-- MAIN -->
-<div class="container">
+    <section class="radio-card" aria-label="Live radio player">
+      <div class="live-heading">
+        <h2>LIVE RADIO</h2>
+        <div class="live-badge">
+          <span class="live-dot"></span>
+          ON AIR
+        </div>
+      </div>
 
-  <h1>LIVE RADIO</h1>
+      <div class="track-label">NOW PLAYING</div>
+      <div id="track-title">Rock Concept</div>
+      <div id="track-artist">Your rock station</div>
+      <div class="listeners" id="listeners">Connecting to the station...</div>
 
-  <div class="player">
-    <audio id="audio" src="http://YOUR_SERVER_IP:8000/live"></audio>
+      <div class="player-controls">
+        <button class="play-button" id="playButton" type="button">
+          ▶ LISTEN LIVE
+        </button>
+        <span class="volume-label">LIVE STREAM · 192 KBPS</span>
+      </div>
 
-    <button onclick="togglePlay()">Play / Pause</button>
+      <audio
+        id="audio"
+        preload="none"
+        playsinline
+        src="https://radio.rockconcept.eu/listen/rockconcept/radio.mp3">
+      </audio>
 
-    <p id="nowPlaying">Loading...</p>
-  </div>
+      <div id="player-status" role="status" aria-live="polite">
+        Press Listen Live to start listening.
+      </div>
+    </section>
 
-</div>
+    <p class="tagline">PURE ROCK. NO COMPROMISE.</p>
+  </main>
 
-<script>
-const audio = document.getElementById("audio");
+  <footer>
+    © <span id="year"></span> ROCK CONCEPT · BUILT FOR ROCKERS
+  </footer>
 
-function togglePlay() {
-  if (audio.paused) audio.play();
-  else audio.pause();
-}
+  <script>
+    const STREAM_URL =
+      "https://radio.rockconcept.eu/listen/rockconcept/radio.mp3";
 
-/* Now Playing */
-async function fetchNowPlaying() {
-  try {
-    const res = await fetch("http://YOUR_SERVER_IP:8000/status-json.xsl");
-    const data = await res.json();
+    const NOW_PLAYING_URL =
+      "https://radio.rockconcept.eu/api/nowplaying/rockconcept";
 
-    const title = data.icestats.source.title || "Live";
-    document.getElementById("nowPlaying").innerText = title;
-  } catch {
-    document.getElementById("nowPlaying").innerText = "Live";
-  }
-}
+    const audio = document.getElementById("audio");
+    const playButton = document.getElementById("playButton");
+    const playerStatus = document.getElementById("player-status");
 
-setInterval(fetchNowPlaying, 5000);
-fetchNowPlaying();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-/* Countdown to 14/12/2026 13:20 */
-const targetDate = new Date("2026-12-14T13:20:00+02:00").getTime();
-function updateCountdown() {
-  const distance = targetDate - new Date().getTime();
-  if (distance <= 0) { document.getElementById("timer").innerText = "00d 00h 00m 00s"; return; }
-  const days = Math.floor(distance / 86400000);
-  const hours = Math.floor((distance % 86400000) / 3600000);
-  const minutes = Math.floor((distance % 3600000) / 60000);
-  const seconds = Math.floor((distance % 60000) / 1000);
-  document.getElementById("timer").innerText = String(days).padStart(2,"0")+"d "+String(hours).padStart(2,"0")+"h "+String(minutes).padStart(2,"0")+"m "+String(seconds).padStart(2,"0")+"s";
-}
-updateCountdown();
-setInterval(updateCountdown, 1000);
-</script>
+    audio.volume = 0.8;
 
+    playButton.addEventListener("click", async () => {
+      if (audio.paused) {
+        playerStatus.textContent = "Connecting to Rock Concept...";
+        audio.src = STREAM_URL;
+
+        try {
+          await audio.play();
+        } catch (error) {
+          playerStatus.textContent =
+            "Could not start playback. Check your connection and try again.";
+        }
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener("playing", () => {
+      playButton.textContent = "❚❚ PAUSE";
+      playerStatus.textContent = "You're listening to Rock Concept. Turn it up!";
+    });
+
+    audio.addEventListener("pause", () => {
+      playButton.textContent = "▶ LISTEN LIVE";
+      if (!audio.ended) {
+        playerStatus.textContent = "Playback paused.";
+      }
+    });
+
+    audio.addEventListener("waiting", () => {
+      playerStatus.textContent = "Buffering the live stream...";
+    });
+
+    audio.addEventListener("error", () => {
+      playerStatus.textContent =
+        "Stream unavailable right now. Please try again shortly.";
+    });
+
+    async function updateNowPlaying() {
+      try {
+        const response = await fetch(NOW_PLAYING_URL, {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Now Playing request failed");
+        }
+
+        const data = await response.json();
+        const station = data.now_playing ? data : data[0];
+
+        if (!station || !station.now_playing) {
+          throw new Error("Station data unavailable");
+        }
+
+        const song = station.now_playing.song || {};
+
+        document.getElementById("track-title").textContent =
+          song.title || "Rock Concept Live";
+
+        document.getElementById("track-artist").textContent =
+          song.artist || "Live Rock Radio";
+
+        const listenerCount =
+          station.listeners && Number.isFinite(station.listeners.total)
+            ? station.listeners.total
+            : null;
+
+        document.getElementById("listeners").textContent =
+          listenerCount === null
+            ? "LIVE FROM ROCK CONCEPT"
+            : listenerCount + (listenerCount === 1
+                ? " LISTENER TUNED IN"
+                : " LISTENERS TUNED IN");
+      } catch (error) {
+        document.getElementById("listeners").textContent =
+          "LIVE FROM ROCK CONCEPT";
+      }
+    }
+
+    updateNowPlaying();
+    setInterval(updateNowPlaying, 15000);
+
+    const targetDate =
+      new Date("2026-12-14T13:20:00+02:00").getTime();
+
+    function updateCountdown() {
+      const timer = document.getElementById("timer");
+      const distance = targetDate - Date.now();
+
+      if (distance <= 0) {
+        timer.textContent = "WE ARE LIVE";
+        return;
+      }
+
+      const days = Math.floor(distance / 86400000);
+      const hours = Math.floor((distance % 86400000) / 3600000);
+      const minutes = Math.floor((distance % 3600000) / 60000);
+      const seconds = Math.floor((distance % 60000) / 1000);
+
+      timer.textContent =
+        String(days).padStart(2, "0") + "d " +
+        String(hours).padStart(2, "0") + "h " +
+        String(minutes).padStart(2, "0") + "m " +
+        String(seconds).padStart(2, "0") + "s";
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
