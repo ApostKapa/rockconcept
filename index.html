@@ -203,8 +203,51 @@
     .player-controls {
       margin-top: 26px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: stretch;
       gap: 14px;
+    }
+
+    .volume-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .volume-toggle {
+      flex: 0 0 auto;
+      min-width: 88px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 90, 31, .55);
+      border-radius: 4px;
+      background: transparent;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+
+    .volume-toggle:hover {
+      background: rgba(255, 50, 31, .14);
+      border-color: var(--red);
+    }
+
+    .volume-slider {
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+
+    .volume-value {
+      min-width: 42px;
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
     }
 
     .play-button {
@@ -273,12 +316,9 @@
 
       .radio-card { padding: 22px 18px; }
 
-      .player-controls {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
       .play-button { width: 100%; }
+      .volume-controls { gap: 9px; }
+      .volume-toggle { min-width: 78px; padding: 10px 8px; }
       .volume-label { text-align: center; }
     }
     
@@ -407,6 +447,26 @@
         <button class="play-button" id="playButton" type="button">
           ▶ LISTEN LIVE
         </button>
+
+        <div class="volume-controls" aria-label="Audio volume controls">
+          <button
+            class="volume-toggle"
+            id="volumeToggle"
+            type="button"
+            aria-label="Mute audio"
+            aria-pressed="false">🔊 MUTE</button>
+          <input
+            class="volume-slider"
+            id="volumeSlider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.5"
+            aria-label="Volume">
+          <output class="volume-value" id="volumeValue" for="volumeSlider">50%</output>
+        </div>
+
         <span class="volume-label">LIVE STREAM · 192 KBPS</span>
       </div>
 
@@ -439,11 +499,56 @@
   const audio = document.getElementById("audio");
   const playButton = document.getElementById("playButton");
   const playerStatus = document.getElementById("player-status");
+  const volumeToggle = document.getElementById("volumeToggle");
+  const volumeSlider = document.getElementById("volumeSlider");
+  const volumeValue = document.getElementById("volumeValue");
+  let lastVolume = 0.5;
 
   document.getElementById("year").textContent =
     new Date().getFullYear();
 
-  audio.volume = 0.8;
+  // Start playback at 50% volume.
+  audio.volume = 0.5;
+  audio.muted = false;
+
+  function updateVolumeControls() {
+    const displayedVolume = audio.muted ? 0 : audio.volume;
+    volumeSlider.value = String(displayedVolume);
+    volumeValue.textContent = Math.round(displayedVolume * 100) + "%";
+
+    const isMuted = audio.muted || audio.volume === 0;
+    volumeToggle.textContent = isMuted ? "🔇 UNMUTE" : "🔊 MUTE";
+    volumeToggle.setAttribute("aria-label", isMuted ? "Unmute audio" : "Mute audio");
+    volumeToggle.setAttribute("aria-pressed", String(audio.muted));
+  }
+
+  volumeSlider.addEventListener("input", () => {
+    const selectedVolume = Number(volumeSlider.value);
+    audio.volume = selectedVolume;
+
+    if (selectedVolume > 0) {
+      lastVolume = selectedVolume;
+      audio.muted = false;
+    }
+
+    updateVolumeControls();
+  });
+
+  volumeToggle.addEventListener("click", () => {
+    if (audio.muted || audio.volume === 0) {
+      audio.muted = false;
+      if (audio.volume === 0) {
+        audio.volume = lastVolume > 0 ? lastVolume : 0.5;
+      }
+    } else {
+      lastVolume = audio.volume;
+      audio.muted = true;
+    }
+
+    updateVolumeControls();
+  });
+
+  updateVolumeControls();
 
   playButton.addEventListener("click", async () => {
     if (audio.paused) {
