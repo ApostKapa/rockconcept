@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090909">
   <meta name="description" content="Rock Concept — Independent rock radio. Turn it up.">
-  <title>Rock Concept | Independent Rock Radio</title>
+  <title>Rock Concept | Design Preview</title>
 
   <style>
     :root {
@@ -34,7 +34,7 @@
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
+      background: linear-gradient(90deg, rgba(0,0,0,.72), rgba(0,0,0,.48) 58%, rgba(0,0,0,.62));
       z-index: 0;
     }
 
@@ -42,7 +42,7 @@
       position: relative;
       z-index: 2;
       width: 100%;
-      padding: 24px 6%;
+      padding: 22px 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -82,7 +82,9 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 28px 15px 0;
+      padding: 18px 15px 24px;
+      margin: 0 auto 0;
+      width: min(1200px, 92%);
     }
 
     .countdown-label {
@@ -101,10 +103,15 @@
     main {
       position: relative;
       z-index: 1;
-      width: min(1200px, 92%);
-      margin: 55px auto 0;
-      padding-bottom: 65px;
-      text-align: center;
+      width: 100%;
+      min-height: calc(100vh - 170px);
+      margin: 0;
+      padding: 28px 5% 42px 0;
+      display: grid;
+      grid-template-columns: 400px minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(34px, 5vw, 76px);
+      text-align: left;
     }
 
     .eyebrow {
@@ -115,12 +122,16 @@
       margin-bottom: 18px;
     }
 
+    .hero-copy { padding: 0 0 34px; transform: translateY(-28px); }
     h1 {
-      font-size: clamp(40px, 8vw, 76px);
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: clamp(48px, 7vw, 100px);
       line-height: 1.05;
-      letter-spacing: 3px;
+      letter-spacing: 1px;
       font-weight: 900;
-      text-shadow: 0 0 30px rgba(255, 50, 31, .16);
+      text-transform: uppercase;
+      font-style: italic;
+      text-shadow: 0 0 30px rgba(255, 50, 31, .28);
     }
 
     h1 span { color: var(--red); }
@@ -129,16 +140,39 @@
       margin-top: 18px;
       color: #d0d0d0;
       font-size: 14px;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
     }
+    .hero-slogan {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: clamp(12px, 1.8vw, 28px);
+      color: #f4f0eb;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(18px, 2.2vw, 34px);
+      line-height: 1.05;
+      letter-spacing: .5px;
+      white-space: nowrap;
+      text-shadow: 2px 3px 0 rgba(120,0,0,.75);
+    }
+    .hero-slogan span { color: var(--red); }
+    .hero-slogan .slogan-light { color: #f4f0eb; }
+    .hero-slogan span { color: var(--red); }
 
     .radio-card {
-      width: min(510px, 100%);
-      margin: 42px 0 0;
-      padding: 28px;
+      box-sizing: border-box;
+      width: 400px;
+      max-width: 400px;
+      height: 750px;
+      min-height: 750px;
+      margin: 0;
+      padding: 32px 24px;
       background: rgba(12, 12, 12, .88);
       border: 1px solid rgba(255, 70, 40, .38);
-      border-radius: 12px;
+      border-radius: 5px;
       box-shadow: 0 15px 55px rgba(0,0,0,.4);
       text-align: left;
     }
@@ -148,7 +182,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .live-heading h2 {
@@ -201,12 +235,26 @@
     }
 
     .player-controls {
-      margin-top: 26px;
+      margin-top: 22px;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: flex-start;
       gap: 14px;
     }
+    .player-controls .play-button {
+      width: auto;
+      min-width: 190px;
+      max-width: 220px;
+      padding: 13px 20px;
+    }
+    .player-controls .volume-controls {
+      display: flex;
+      width: 100%;
+      max-width: 350px;
+      align-items: center;
+      gap: 10px;
+    }
+    .player-controls .volume-label { width: 100%; }
 
     .volume-controls {
       display: flex;
@@ -284,12 +332,7 @@
       line-height: 1.5;
     }
 
-    .tagline {
-      margin-top: 35px;
-      color: #aaa;
-      font-size: 12px;
-      letter-spacing: 2px;
-    }
+    .tagline { display: none; }
 
     footer {
       position: relative;
@@ -304,21 +347,50 @@
 
     footer span { color: var(--red); }
 
+    @media (max-width: 850px) {
+      main {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 26px;
+        padding-top: 28px;
+      }
+      .radio-card {
+        box-sizing: border-box;
+        width: min(300px, 100%);
+        max-width: 300px;
+        height: 750px;
+        min-height: 750px;
+        margin: 0;
+      }
+      main { width: 92%; margin: 0 auto; padding: 28px 0 42px; }
+      .hero-copy { text-align: center; padding: 8px 0 20px; transform: none; }
+      .eyebrow { margin-bottom: 12px; }
+      .hero-slogan { margin-top: 18px; flex-wrap: wrap; justify-content: center; white-space: normal; }
+      .countdown { padding-top: 20px; }
+    }
     @media (max-width: 520px) {
       .navbar {
         padding: 20px 5%;
         flex-direction: column;
       }
 
-      .nav-links { gap: 22px; }
-
-      main { margin-top: 42px; }
+      .nav-links { gap: 14px; flex-wrap: wrap; justify-content: center; }
+      .nav-links a { font-size: 11px; }
+      main { margin-top: 0; }
 
       .radio-card {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 0;
+        margin-right: 0;
         padding: 22px 18px;
       }
+      .player-controls { grid-template-columns: 1fr; }
+      .player-controls .play-button,
+      .player-controls .volume-controls,
+      .player-controls .volume-label {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      h1 { font-size: clamp(42px, 13vw, 64px); }
 
       .play-button { width: 100%; }
       .volume-controls { gap: 9px; }
@@ -408,22 +480,16 @@
     <a class="brand" href="./">ROCK <span>CONCEPT</span></a>
 
     <nav class="nav-links" aria-label="Main navigation">
+      <a href="./">HOME</a>
+      <a href="#live-radio">LIVE RADIO</a>
       <a href="producers.html">PRODUCERS</a>
       <a href="chat.html">CHAT</a>
+      <a href="#about">ABOUT</a>
     </nav>
   </header>
 
-  <section class="countdown" aria-label="Launch countdown">
-    <div class="countdown-label">COUNTDOWN TO LAUNCH</div>
-    <div id="timer">Loading...</div>
-  </section>
-
   <main>
-    <div class="eyebrow">INDEPENDENT ROCK RADIO</div>
-    <h1>ROCK <span>CONCEPT</span></h1>
-    <p class="subtitle">TURN IT UP. FEEL THE ROCK.</p>
-
-    <section class="radio-card" aria-label="Live radio player">
+    <section class="radio-card" id="live-radio" aria-label="Live radio player">
       <div class="live-heading">
         <h2>LIVE RADIO</h2>
         
@@ -486,8 +552,18 @@
       </div>
     </section>
 
-    <p class="tagline">PURE ROCK. NO COMPROMISE.</p>
+    <section class="hero-copy" id="about">
+      <div class="eyebrow">INDEPENDENT ROCK RADIO</div>
+      <h1>ROCK <span>CONCEPT</span></h1>
+      <p class="subtitle">LIVE ROCK RADIO</p>
+      <p class="hero-slogan">REAL ROCK<br><span>REAL PEOPLE</span><br>NO BULLSHIT</p>
+    </section>
   </main>
+
+  <section class="countdown" aria-label="Launch countdown">
+    <div class="countdown-label">COUNTDOWN TO LAUNCH</div>
+    <div id="timer">Loading...</div>
+  </section>
 
   <footer>
     © <span id="year"></span> ROCK CONCEPT · BUILT FOR ROCKERS
