@@ -472,6 +472,75 @@
   text-decoration: underline;
 }
 
+
+    /* RockConcept chat modal */
+    .chat-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .88);
+      backdrop-filter: blur(5px);
+    }
+
+    .chat-modal.open { display: flex; }
+
+    .chat-window {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: min(700px, 100%);
+      height: min(620px, 90vh);
+      padding: 27px 25px 20px;
+      overflow: hidden;
+      background: #101010;
+      border: 1px solid var(--red);
+      box-shadow: 0 0 35px rgba(255, 50, 31, .25), 0 20px 70px rgba(0, 0, 0, .7);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 42px 18px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .chat-header h2 { font-size: 17px; letter-spacing: 3px; }
+    .chat-header h2 span { color: var(--red); }
+    .chat-kicker { margin-top: 6px; color: #999; font-size: 10px; letter-spacing: 2px; }
+
+    .chat-close {
+      position: absolute;
+      top: 13px;
+      right: 17px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 3px;
+      background: transparent;
+      color: #fff;
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .chat-close:hover { color: var(--red); border-color: var(--red); }
+    .chat-content { flex: 1; min-height: 0; padding-top: 18px; overflow: auto; }
+    .powered-by-minnit { padding-top: 8px; text-align: right; font-size: 10px; }
+    .powered-by-minnit a { color: #888; text-decoration: none; }
+    .powered-by-minnit a:hover { color: #fff; }
+    body.chat-modal-open { overflow: hidden; }
+
+    @media (max-width: 520px) {
+      .chat-modal { padding: 8px; }
+      .chat-window { width: 100%; height: 94vh; padding: 22px 14px 14px; }
+      .chat-header h2 { font-size: 15px; }
+    }
+
   </style>
 </head>
 
@@ -485,7 +554,7 @@
       <a href="./">HOME</a>
       <a href="#live-radio">LIVE RADIO</a>
       <a href="producers.html">PRODUCERS</a>
-      <a href="chat.html">CHAT</a>
+      <a href="#chat-modal" id="chatOpen">CHAT</a>
       <a href="#about">ABOUT</a>
     </nav>
   </header>
@@ -570,7 +639,68 @@
     © <span id="year"></span> ROCK CONCEPT · BUILT FOR ROCKERS
   </footer>
     
+
+  <!-- Minnit chat modal: kept in the page so closing it does not reload the radio player. -->
+  <div class="chat-modal" id="chatModal" aria-hidden="true">
+    <section class="chat-window" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">×</button>
+      <div class="chat-header">
+        <div>
+          <h2 id="chatTitle">ROCKCONCEPT <span>CHAT</span></h2>
+          <p class="chat-kicker">REAL PEOPLE · REAL TALK · REAL ROCK</p>
+        </div>
+      </div>
+      <div class="chat-content">
+        <script src="https://minnit.chat/js/embed.js?c=1793238146" defer></script>
+        <span style="display: none;" class="minnit-chat-sembed"
+          data-chatname="https://organizations.minnit.chat/201695675916719/c/Main?embed"
+          data-style="width:100%; height:500px; max-height:90vh;"
+          data-version="1.56">Chat</span>
+      </div>
+      <p class="powered-by-minnit">
+        <a href="https://minnit.chat" target="_blank" rel="noopener noreferrer">Group chat provided by Minnit</a>
+      </p>
+    </section>
+  </div>
+
 <script>
+
+  // Chat modal controls. The audio element stays untouched while the modal opens/closes.
+  const chatModal = document.getElementById("chatModal");
+  const chatOpen = document.getElementById("chatOpen");
+  const chatClose = document.getElementById("chatClose");
+
+  function openChatModal() {
+    chatModal.classList.add("open");
+    chatModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("chat-modal-open");
+    chatClose.focus();
+  }
+
+  function closeChatModal() {
+    chatModal.classList.remove("open");
+    chatModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("chat-modal-open");
+    chatOpen.focus();
+  }
+
+  chatOpen.addEventListener("click", (event) => {
+    event.preventDefault();
+    openChatModal();
+  });
+
+  chatClose.addEventListener("click", closeChatModal);
+
+  chatModal.addEventListener("click", (event) => {
+    if (event.target === chatModal) closeChatModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && chatModal.classList.contains("open")) {
+      closeChatModal();
+    }
+  });
+
   const STREAM_URL =
     "https://radio.rockconcept.eu/listen/rockconcept/radio.mp3";
 
