@@ -634,6 +634,95 @@
       text-transform: none;
     }
     body.producers-modal-open { overflow: hidden; }
+
+    /* About concept popup — preview only */
+    .about-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, .92);
+      backdrop-filter: blur(7px);
+    }
+    .about-modal.open { display: flex; }
+    .about-window {
+      position: relative;
+      width: min(760px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 52px 54px 46px;
+      background: linear-gradient(145deg, #151515, #080808 72%);
+      border: 1px solid rgba(255, 50, 31, .85);
+      box-shadow: 0 0 38px rgba(255, 50, 31, .22), 0 22px 75px rgba(0,0,0,.8);
+      text-align: center;
+    }
+    .about-window::before {
+      content: "";
+      display: block;
+      width: 76px;
+      height: 3px;
+      margin: 0 auto 30px;
+      background: var(--red);
+      box-shadow: 0 0 14px rgba(255,50,31,.7);
+    }
+    .about-close {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: transparent;
+      color: #fff;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .about-close:hover { color: var(--red); border-color: var(--red); }
+    .about-kicker {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      margin-bottom: 14px;
+    }
+    .about-title {
+      color: #fff;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: clamp(30px, 5vw, 48px);
+      font-style: italic;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 28px;
+    }
+    .about-title span { color: var(--red); }
+    .about-copy {
+      max-width: 610px;
+      margin: 0 auto;
+      color: #d0d0d0;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+    .about-copy p { margin: 0 0 18px; }
+    .about-signature {
+      margin-top: 30px;
+      color: #fff;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-size: 17px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    body.about-modal-open { overflow: hidden; }
+    @media (max-width: 520px) {
+      .about-modal { padding: 12px; }
+      .about-window { width: 100%; max-height: 84vh; padding: 42px 22px 30px; }
+      .about-copy { font-size: 14px; line-height: 1.75; }
+      .about-title { font-size: clamp(29px, 8vw, 39px); }
+    }
+
     @media (max-width: 520px) {
       .producers-modal { padding: 12px; }
       .producers-window { width: min(420px, 92vw); max-height: 82vh; padding: 30px 18px 24px; }
@@ -655,7 +744,7 @@
       <a href="#live-radio">LIVE RADIO</a>
       <a href="#producersModal" id="producersOpen">PRODUCERS</a>
       <a href="#chat-modal" id="chatOpen">CHAT</a>
-      <a href="#about">ABOUT</a>
+      <a href="#aboutModal" id="aboutOpen">ABOUT</a>
     </nav>
   </header>
 
@@ -739,6 +828,23 @@
     © <span id="year"></span> ROCK CONCEPT · BUILT FOR ROCKERS
   </footer>
     
+
+  <!-- About concept popup: preview only; stays on this page so live audio continues. -->
+  <div class="about-modal" id="aboutModal" aria-hidden="true">
+    <section class="about-window" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <button class="about-close" id="aboutClose" type="button" aria-label="Close About">×</button>
+      <p class="about-kicker">THE IDEA BEHIND THE SOUND</p>
+      <h2 class="about-title" id="aboutTitle">More than just a <span>Web Radio.</span></h2>
+      <div class="about-copy">
+        <p>Το RockConcept δεν ξεκίνησε ως ένας ακόμη διαδικτυακός ραδιοφωνικός σταθμός.</p>
+        <p>Ξεκίνησε ως ένα concept. Μια ιδέα γύρω από τη μουσική, την ελευθερία της έκφρασης και τους ανθρώπους που δεν χρειάζονται playlists για να τους πουν τι να αγαπήσουν.</p>
+        <p>Στην πορεία, αυτή η ιδέα απέκτησε φωνή, ήχο και τη δική της συχνότητα στο διαδίκτυο.</p>
+        <p>Σήμερα είναι ένα σημείο συνάντησης για όσους αισθάνονται τη μουσική λίγο διαφορετικά. Για όσους μεγάλωσαν με το rock, για όσους ανακαλύπτουν καινούργιους ήχους και για όσους πιστεύουν ότι η μουσική δεν έχει ημερομηνία λήξης.</p>
+        <p>Δεν έχουμε σκοπό να μοιάσουμε σε κανέναν. Ούτε να χωρέσουμε σε κάποια κατηγορία.</p>
+      </div>
+      <p class="about-signature">Real Rock · Real People · No Bullshit</p>
+    </section>
+  </div>
 
   <!-- Minnit chat modal: kept in the page so closing it does not reload the radio player. -->
   <div class="producers-modal" id="producersModal" aria-hidden="true">
@@ -842,6 +948,39 @@
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && chatModal.classList.contains("open")) {
       closeChatModal();
+    }
+  });
+
+  // About popup controls; opening it does not reload or interrupt the live stream.
+  const aboutModal = document.getElementById("aboutModal");
+  const aboutOpen = document.getElementById("aboutOpen");
+  const aboutClose = document.getElementById("aboutClose");
+
+  function openAboutModal() {
+    aboutModal.classList.add("open");
+    aboutModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("about-modal-open");
+    aboutClose.focus();
+  }
+
+  function closeAboutModal() {
+    aboutModal.classList.remove("open");
+    aboutModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("about-modal-open");
+    aboutOpen.focus();
+  }
+
+  aboutOpen.addEventListener("click", (event) => {
+    event.preventDefault();
+    openAboutModal();
+  });
+  aboutClose.addEventListener("click", closeAboutModal);
+  aboutModal.addEventListener("click", (event) => {
+    if (event.target === aboutModal) closeAboutModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && aboutModal.classList.contains("open")) {
+      closeAboutModal();
     }
   });
 
